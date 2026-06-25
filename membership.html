@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Membership | Sanskar Vikas Foundation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    :root {
+      --green-primary: #1a9e6e;
+      --green-dark: #0d6b49;
+      --green-deeper: #0d3d28;
+      --green-pale: #e8f7f1;
+      --green-light: #4ecb98;
+      --navy: #0f2044;
+      --navy-light: #1a3460;
+      --orange-accent: #e8622a;
+      --white: #ffffff;
+      --off-white: #f8faf9;
+      --gray-mid: #6b7280;
+      --gray-dark: #374151;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--off-white); color: var(--gray-dark); overflow-x: hidden; }
+
+    .mem-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 50%, var(--green-deeper) 100%);
+      padding: 100px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .mem-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234ecb98' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .mem-hero .tag {
+      display: inline-block;
+      background: rgba(78,203,152,0.2);
+      color: var(--green-light);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 50px;
+      border: 1px solid rgba(78,203,152,0.3);
+      margin-bottom: 20px;
+    }
+    .mem-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .mem-hero h1 span { color: var(--green-light); }
+    .mem-hero p { color: rgba(255,255,255,0.72); font-size: 1rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+    .plans-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 24px 32px;
+    }
+    .plans-section .sec-head {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .plans-section .sec-head h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .plans-section .sec-head p { color: var(--gray-mid); font-size: 0.95rem; }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .plan-card {
+      background: white;
+      border-radius: 24px;
+      padding: 36px 28px;
+      border: 2px solid rgba(0,0,0,0.06);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+    }
+    .plan-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+    .plan-card.selected {
+      border-color: var(--green-primary);
+      box-shadow: 0 0 0 4px rgba(26,158,110,0.12), 0 8px 32px rgba(0,0,0,0.08);
+    }
+    .plan-card.popular { border-color: var(--green-primary); }
+
+    .popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--green-primary), var(--green-dark));
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 16px;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+
+    .plan-icon {
+      width: 52px; height: 52px;
+      background: var(--green-pale);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+    .plan-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--navy); margin-bottom: 6px; }
+    .plan-desc { font-size: 0.82rem; color: var(--gray-mid); margin-bottom: 20px; line-height: 1.5; }
+    .plan-price { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--green-primary); margin-bottom: 4px; }
+    .plan-price span { font-size: 0.95rem; font-family: 'DM Sans', sans-serif; color: var(--gray-mid); font-weight: 400; }
+    .plan-period { font-size: 0.8rem; color: var(--gray-mid); margin-bottom: 24px; }
+
+    .plan-features { list-style: none; margin-bottom: 28px; }
+    .plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--gray-dark); margin-bottom: 10px; line-height: 1.5; }
+    .plan-features li .chk { color: var(--green-primary); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    .select-plan-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      border: 2px solid var(--green-primary);
+      background: white;
+      color: var(--green-primary);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .plan-card.selected .select-plan-btn,
+    .select-plan-btn:hover {
+      background: linear-gradient(135deg, var(--green-primary), var(--green-dark));
+      color: white;
+      border-color: var(--green-primary);
+    }
+
+    .registration-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .reg-card {
+      background: white;
+      border-radius: 28px;
+      padding: 44px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .reg-card h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--navy); margin-bottom: 8px; }
+    .reg-card > p { color: var(--gray-mid); font-size: 0.9rem; margin-bottom: 28px; }
+
+    .selected-plan-bar {
+      background: var(--green-pale);
+      border: 1px solid rgba(26,158,110,0.2);
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .selected-plan-bar .plan-info { font-size: 0.88rem; font-weight: 600; color: var(--navy); }
+    .selected-plan-bar .plan-fee { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--green-primary); }
+
+    .step-indicator { display: flex; align-items: center; gap: 0; margin-bottom: 28px; }
+    .step { display: flex; align-items: center; gap: 8px; flex: 1; }
+    .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--off-white); border: 2px solid rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; color: var(--gray-mid); flex-shrink: 0; }
+    .step.active .step-num { background: var(--green-primary); border-color: var(--green-primary); color: white; }
+    .step.done .step-num { background: var(--green-pale); border-color: var(--green-primary); color: var(--green-dark); }
+    .step-label { font-size: 0.78rem; font-weight: 600; color: var(--gray-mid); }
+    .step.active .step-label { color: var(--green-dark); }
+    .step-line { flex: 1; height: 2px; background: rgba(0,0,0,0.08); margin: 0 8px; }
+    .step-line.done { background: var(--green-primary); }
+
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-group { margin-bottom: 0; }
+    .form-group.full { grid-column: 1/-1; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .form-input { width: 100%; padding: 12px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.92rem; color: var(--gray-dark); background: white; outline: none; transition: border-color 0.2s; }
+    .form-input:focus { border-color: var(--green-primary); }
+    select.form-input { appearance: none; }
+    .select-wrap { position: relative; }
+    .select-wrap::after { content: '▾'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--gray-mid); pointer-events: none; }
+
+    .next-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--green-primary), var(--green-dark));
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 24px;
+      box-shadow: 0 6px 24px rgba(26,158,110,0.3);
+    }
+    .next-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(26,158,110,0.4); }
+    .next-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .back-btn { background: none; border: none; color: var(--gray-mid); font-size: 0.88rem; cursor: pointer; margin-bottom: 20px; display: flex; align-items: center; gap: 6px; font-family: 'DM Sans', sans-serif; padding: 0; }
+    .back-btn:hover { color: var(--green-primary); }
+
+    .upi-pay { text-align: center; }
+    .upi-pay h3 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.3rem; margin-bottom: 6px; }
+    .upi-pay .sub { color: var(--gray-mid); font-size: 0.88rem; margin-bottom: 24px; }
+    .amount-badge { display: inline-block; background: linear-gradient(135deg, var(--green-primary), var(--green-dark)); color: white; font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; padding: 10px 30px; border-radius: 50px; margin-bottom: 24px; box-shadow: 0 6px 24px rgba(26,158,110,0.3); }
+    .qr-box { background: var(--off-white); border-radius: 20px; padding: 24px; margin: 0 auto 20px; max-width: 240px; border: 2px solid rgba(26,158,110,0.15); }
+    .qr-box img { width: 180px; height: 180px; border-radius: 12px; display: block; margin: 0 auto; object-fit: contain; }
+    .upi-id-display { margin-top: 12px; font-size: 0.8rem; color: var(--gray-mid); text-align: center; }
+    .upi-val { font-weight: 700; color: var(--green-dark); }
+    .upi-apps { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .upi-app-pill { background: white; border: 1.5px solid rgba(0,0,0,0.08); border-radius: 50px; padding: 6px 14px; font-size: 0.78rem; font-weight: 600; color: var(--gray-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .paid-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--green-primary), var(--green-dark)); color: white; border: none; border-radius: 14px; font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 6px 24px rgba(26,158,110,0.3); }
+    .paid-btn:hover { transform: translateY(-2px); }
+    .paid-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .mem-sidebar { display: flex; flex-direction: column; gap: 24px; }
+    .info-card { background: white; border-radius: 24px; padding: 28px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .info-card h4 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.1rem; margin-bottom: 16px; }
+    .info-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .info-item:last-child { margin-bottom: 0; padding-bottom: 0; border: none; }
+    .info-icon { width: 36px; height: 36px; background: var(--green-pale); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .info-text strong { font-size: 0.88rem; color: var(--navy); display: block; margin-bottom: 2px; }
+    .info-text span { font-size: 0.8rem; color: var(--gray-mid); line-height: 1.5; }
+    .tax-card { background: linear-gradient(135deg, var(--green-pale), white); border-radius: 24px; padding: 24px; border: 1px solid rgba(26,158,110,0.12); }
+    .tax-card-row { display: flex; align-items: flex-start; gap: 14px; }
+    .tax-icon { width: 44px; height: 44px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .tax-text h5 { font-size: 0.92rem; color: var(--navy); margin-bottom: 4px; }
+    .tax-text p { font-size: 0.8rem; color: var(--gray-mid); line-height: 1.6; }
+
+    .success-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(6px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .success-overlay.active { opacity: 1; pointer-events: all; }
+    .success-box { background: white; border-radius: 28px; padding: 48px 40px; text-align: center; max-width: 440px; width: 100%; transform: scale(0.9); transition: transform 0.3s; box-shadow: 0 24px 80px rgba(0,0,0,0.2); }
+    .success-overlay.active .success-box { transform: scale(1); }
+    .success-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--green-primary), var(--green-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 24px; box-shadow: 0 12px 36px rgba(26,158,110,0.3); }
+    .success-box h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--navy); margin-bottom: 12px; }
+    .success-box p { font-size: 0.88rem; color: var(--gray-mid); line-height: 1.7; margin-bottom: 24px; }
+    .success-close { background: var(--navy); color: white; border: none; padding: 13px 36px; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.92rem; cursor: pointer; }
+    .success-close:hover { background: var(--green-dark); }
+
+    .spinner { width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--green-dark); color: white; padding: 14px 22px; border-radius: 12px; font-size: 0.88rem; font-weight: 600; z-index: 9999; animation: slideIn 0.3s ease; box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
+    .toast.error { background: #c0392b; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+
+    @media (max-width: 900px) { .plans-grid { grid-template-columns: 1fr; } .registration-section { grid-template-columns: 1fr; } .mem-sidebar { order: -1; } }
+    @media (max-width: 600px) { .reg-card { padding: 28px 20px; } .form-row { grid-template-columns: 1fr; } }
+
+    [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    [data-reveal].revealed { opacity: 1; transform: translateY(0); }
+    [data-reveal][data-delay="1"] { transition-delay: 0.1s; }
+    [data-reveal][data-delay="2"] { transition-delay: 0.2s; }
+  </style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+<section class="mem-hero">
+  <div class="tag">Join Our Community</div>
+  <h1>Become a <span>Member</span><br>of Sanskar Vikas</h1>
+  <p>Join us in our mission to empower communities across Maharashtra. As a member, you partner with us in creating lasting social change.</p>
+</section>
+
+<!-- PLANS -->
+<div class="plans-section">
+  <div class="sec-head">
+    <h2>Choose Your Membership</h2>
+    <p>All memberships include 80G tax exemption benefits and an official membership certificate.</p>
+  </div>
+
+  <div class="plans-grid">
+    <div class="plan-card" data-plan="supporter" data-fee="500" onclick="selectPlan(this)">
+      <div class="plan-icon">🌱</div>
+      <div class="plan-name">Supporter</div>
+      <div class="plan-desc">Perfect for individuals who want to stay connected with our work and contribute annually.</div>
+      <div class="plan-price">₹500 <span>/ year</span></div>
+      <div class="plan-period">Annual membership</div>
+      <ul class="plan-features">
+        <li><span class="chk">✓</span> Official membership certificate</li>
+        <li><span class="chk">✓</span> Monthly newsletters & updates</li>
+        <li><span class="chk">✓</span> 80G tax receipt</li>
+        <li><span class="chk">✓</span> Access to annual report</li>
+      </ul>
+      <button class="select-plan-btn">Select Plan</button>
+    </div>
+
+    <div class="plan-card popular" data-plan="associate" data-fee="2000" onclick="selectPlan(this)">
+      <div class="popular-badge">⭐ Most Popular</div>
+      <div class="plan-icon">🤝</div>
+      <div class="plan-name">Associate Member</div>
+      <div class="plan-desc">Ideal for professionals and community leaders who want an active role in our mission.</div>
+      <div class="plan-price">₹2,000 <span>/ year</span></div>
+      <div class="plan-period">Annual membership</div>
+      <ul class="plan-features">
+        <li><span class="chk">✓</span> All Supporter benefits</li>
+        <li><span class="chk">✓</span> Invitation to events & camps</li>
+        <li><span class="chk">✓</span> Voting rights at AGM</li>
+        <li><span class="chk">✓</span> Recognized on our website</li>
+        <li><span class="chk">✓</span> Priority project updates</li>
+      </ul>
+      <button class="select-plan-btn">Select Plan</button>
+    </div>
+
+    <div class="plan-card" data-plan="lifetime" data-fee="10000" onclick="selectPlan(this)">
+      <div class="plan-icon">🏆</div>
+      <div class="plan-name">Lifetime Member</div>
+      <div class="plan-desc">For those deeply committed to our cause with a one-time contribution for lifelong impact.</div>
+      <div class="plan-price">₹10,000 <span>one-time</span></div>
+      <div class="plan-period">Lifetime membership</div>
+      <ul class="plan-features">
+        <li><span class="chk">✓</span> All Associate benefits</li>
+        <li><span class="chk">✓</span> Permanent recognition plaque</li>
+        <li><span class="chk">✓</span> Governing body invitations</li>
+        <li><span class="chk">✓</span> Special mention in annual report</li>
+        <li><span class="chk">✓</span> Complimentary site visits</li>
+      </ul>
+      <button class="select-plan-btn">Select Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTRATION FORM -->
+<div class="registration-section">
+
+  <div class="reg-card" data-reveal>
+
+    <div class="selected-plan-bar" id="selectedPlanBar">
+      <span class="plan-info" id="selectedPlanInfo">Select a plan above ↑</span>
+      <span class="plan-fee" id="selectedPlanFee">—</span>
+    </div>
+
+    <div class="step-indicator">
+      <div class="step active" id="mstep-ind-1"><div class="step-num">1</div><div class="step-label">Details</div></div>
+      <div class="step-line" id="mline-1-2"></div>
+      <div class="step" id="mstep-ind-2"><div class="step-num">2</div><div class="step-label">Pay via UPI</div></div>
+    </div>
+
+    <!-- Step 1: Member Details -->
+    <div class="step-panel active" id="mpanel-1">
+      <h2>Member Details</h2>
+      <p>Fill in your details to register. Your membership certificate will be emailed instantly.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name *</label>
+          <input type="text" class="form-input" id="mFirstName" placeholder="Ravi" required>
+        </div>
+        <div class="form-group">
+          <label>Last Name *</label>
+          <input type="text" class="form-input" id="mLastName" placeholder="Sharma" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" class="form-input" id="mEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Phone *</label>
+          <input type="tel" class="form-input" id="mPhone" placeholder="+91 98765 43210" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date of Birth</label>
+          <input type="date" class="form-input" id="mDob">
+        </div>
+        <div class="form-group">
+          <label>Gender</label>
+          <div class="select-wrap">
+            <select class="form-input" id="mGender">
+              <option value="">Prefer not to say</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Occupation</label>
+          <input type="text" class="form-input" id="mOccupation" placeholder="Doctor, Teacher, etc.">
+        </div>
+        <div class="form-group">
+          <label>PAN (for 80G benefit)</label>
+          <input type="text" class="form-input" id="mPan" placeholder="ABCDE1234F" maxlength="10">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full" style="grid-column:1/-1;">
+          <label>Full Address *</label>
+          <input type="text" class="form-input" id="mAddress" placeholder="Plot No., Street, City, PIN" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full" style="grid-column:1/-1;">
+          <label>Why do you want to join? (Optional)</label>
+          <input type="text" class="form-input" id="mWhy" placeholder="Share your motivation...">
+        </div>
+      </div>
+
+      <button class="next-btn" id="mNextToPayment">Proceed to Payment →</button>
+      <p style="margin-top:12px;font-size:0.78rem;color:var(--gray-mid);text-align:center;">🔒 Your data is secure and used only for membership records</p>
+    </div>
+
+    <!-- Step 2: UPI Payment -->
+    <div class="step-panel" id="mpanel-2">
+      <button class="back-btn" onclick="mGoToStep(1)">← Back</button>
+      <div class="upi-pay">
+        <h3>Complete Membership Payment</h3>
+        <p class="sub">Scan the QR code to pay your membership fee</p>
+
+        <div class="amount-badge" id="mDisplayAmount">₹2,000</div>
+
+        <div class="qr-box">
+          <img src="sanskar qr.jpeg" alt="Sanskar Vikas Foundation UPI QR Code"
+               onerror="this.style.display='none';document.getElementById('mqr-fallback').style.display='flex';">
+          <div id="mqr-fallback" style="display:none;width:180px;height:180px;background:var(--off-white);border-radius:12px;margin:0 auto;align-items:center;justify-content:center;flex-direction:column;gap:8px;border:2px dashed rgba(26,158,110,0.3);">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4ecb98" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3M17 17v3M20 14v3"/></svg>
+            <span style="font-size:0.7rem;color:var(--gray-mid);text-align:center;">Add <b>sanskar-upi-qr.png</b><br>to website folder</span>
+          </div>
+          <div class="upi-id-display">UPI ID: <span class="upi-val">sanskarvikasfoundation@canara</span></div>
+        </div>
+
+        <div class="upi-apps">
+          <span class="upi-app-pill">📱 GPay</span>
+          <span class="upi-app-pill">📲 PhonePe</span>
+          <span class="upi-app-pill">💳 Paytm</span>
+          <span class="upi-app-pill">🏦 BHIM</span>
+        </div>
+
+        <p style="font-size:0.82rem;color:var(--gray-mid);margin-bottom:18px;line-height:1.6;">
+          After paying, click below. Your <strong>membership certificate</strong> will be emailed to you instantly.
+        </p>
+
+        <button class="paid-btn" id="mConfirmPaidBtn">✅ I've Completed the Payment</button>
+        <p style="margin-top:10px;font-size:0.75rem;color:var(--gray-mid);">Certificate + 80G receipt will arrive in your inbox shortly.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Sidebar -->
+  <div class="mem-sidebar">
+
+    <div class="info-card" data-reveal data-delay="1">
+      <h4>Membership Benefits</h4>
+      <div class="info-item">
+        <div class="info-icon">📜</div>
+        <div class="info-text"><strong>Official Certificate</strong><span>Emailed instantly after payment confirmation</span></div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🧾</div>
+        <div class="info-text"><strong>80G Tax Receipt</strong><span>Automatically sent along with your certificate</span></div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📣</div>
+        <div class="info-text"><strong>Program Updates</strong><span>Monthly newsletters on all our activities</span></div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🤝</div>
+        <div class="info-text"><strong>Community Access</strong><span>Connect with like-minded changemakers</span></div>
+      </div>
+    </div>
+
+    <div class="tax-card" data-reveal data-delay="2">
+      <div class="tax-card-row">
+        <div class="tax-icon">📋</div>
+        <div class="tax-text">
+          <h5>80G Tax Exemption</h5>
+          <p>Membership fees to Sanskar Vikas Foundation are eligible for 80G income tax deduction. Receipt sent automatically.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card" data-reveal data-delay="2">
+      <h4>About the Foundation</h4>
+      <div class="info-item">
+        <div class="info-icon">🏛</div>
+        <div class="info-text"><strong>CIN</strong><span>U93030MH2012NPL237849</span></div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📧</div>
+        <div class="info-text"><strong>Contact</strong><span>sanskarvikasfoundation@gmail.com</span></div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📱</div>
+        <div class="info-text"><strong>Phone</strong><span>+91 89756 04678</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="background:var(--navy);padding:32px 24px;text-align:center;">
+  <p style="color:rgba(255,255,255,0.6);font-size:0.88rem;margin-bottom:6px;">Questions about membership?</p>
+  <p style="color:white;font-weight:600;font-size:1rem;">📧 sanskarvikasfoundation@gmail.com &nbsp;|&nbsp; 📱 +91 89756 04678</p>
+</div>
+
+<!-- Success Modal -->
+<div class="success-overlay" id="mSuccessOverlay">
+  <div class="success-box">
+    <div class="success-icon">🎉</div>
+    <h3>Welcome, Member!</h3>
+    <p>Your membership registration is complete. Your <strong>official membership certificate</strong> and <strong>80G receipt</strong> have been sent to your email. The Foundation team has also been notified.</p>
+    <p style="font-size:0.82rem;color:var(--green-primary);font-weight:600;margin-bottom:24px;">Thank you for joining our mission!</p>
+    <button class="success-close" onclick="mCloseSuccess()">Close</button>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
+  // =============================================
+  // ✅ EmailJS CONFIGURATION — LIVE CREDENTIALS
+  // =============================================
+  const EMAILJS_PUBLIC_KEY       = "AHeNDa0LZzZNl7ubN";
+  const EMAILJS_SERVICE_ID       = "service_iuanurj";
+  const EMAILJS_TEMPLATE_MEMBER  = "template_20azzqh";  // Member certificate template
+  const EMAILJS_TEMPLATE_NGO_MEM = "template_20azzqh";  // Same template for NGO notification
+
+  const FOUNDATION_EMAIL = "sanskarvikasfoundation@gmail.com";
+
+  // Initialise EmailJS with public key
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+
+  // =============================================
+  // PLAN SELECTION
+  // =============================================
+  let selectedPlan = null;
+
+  function selectPlan(card) {
+    document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedPlan = {
+      name:  card.getAttribute('data-plan'),
+      fee:   parseInt(card.getAttribute('data-fee')),
+      label: card.querySelector('.plan-name').textContent,
+    };
+    const labels = {
+      supporter: 'Supporter (₹500/yr)',
+      associate: 'Associate Member (₹2,000/yr)',
+      lifetime:  'Lifetime Member (₹10,000)',
+    };
+    document.getElementById('selectedPlanInfo').textContent = labels[selectedPlan.name] || selectedPlan.label;
+    document.getElementById('selectedPlanFee').textContent  = '₹' + selectedPlan.fee.toLocaleString('en-IN');
+  }
+
+  // =============================================
+  // STEP NAVIGATION
+  // =============================================
+  let mCurrentStep = 1;
+  let memberData   = {};
+
+  function mGoToStep(step) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('mpanel-' + step).classList.add('active');
+    mCurrentStep = step;
+
+    for (let i = 1; i <= 2; i++) {
+      const ind = document.getElementById('mstep-ind-' + i);
+      ind.classList.remove('active', 'done');
+      if (i < step)      ind.classList.add('done');
+      else if (i === step) ind.classList.add('active');
+    }
+    const line = document.getElementById('mline-1-2');
+    if (step >= 2) line.classList.add('done'); else line.classList.remove('done');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // =============================================
+  // STEP 1 → STEP 2  (validate & collect data)
+  // =============================================
+  document.getElementById('mNextToPayment').addEventListener('click', () => {
+    if (!selectedPlan) { showToast('⚠️ Please select a membership plan above', 'error'); return; }
+
+    const firstName = document.getElementById('mFirstName').value.trim();
+    const lastName  = document.getElementById('mLastName').value.trim();
+    const email     = document.getElementById('mEmail').value.trim();
+    const phone     = document.getElementById('mPhone').value.trim();
+    const address   = document.getElementById('mAddress').value.trim();
+
+    if (!firstName || !lastName) { showToast('⚠️ Please enter your full name', 'error'); return; }
+    if (!email || !email.includes('@')) { showToast('⚠️ Please enter a valid email', 'error'); return; }
+    if (!phone) { showToast('⚠️ Phone number is required', 'error'); return; }
+    if (!address) { showToast('⚠️ Address is required', 'error'); return; }
+
+    memberData = {
+      firstName, lastName, email, phone, address,
+      dob:        document.getElementById('mDob').value,
+      gender:     document.getElementById('mGender').value,
+      occupation: document.getElementById('mOccupation').value.trim(),
+      pan:        document.getElementById('mPan').value.trim().toUpperCase(),
+      why:        document.getElementById('mWhy').value.trim(),
+      plan:       selectedPlan,
+    };
+
+    document.getElementById('mDisplayAmount').textContent = '₹' + selectedPlan.fee.toLocaleString('en-IN');
+    mGoToStep(2);
+  });
+
+  // =============================================
+  // STEP 2 — CONFIRM PAYMENT & SEND EMAILS
+  // =============================================
+  document.getElementById('mConfirmPaidBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('mConfirmPaidBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Sending certificate...';
+
+    // Generate membership number
+    const now        = new Date();
+    const membershipNo = 'SVF-MEM-' + now.getFullYear() + '-' + String(Math.floor(Math.random() * 90000) + 10000);
+    const dateStr    = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' });
+
+    // -----------------------------------------------
+    // Template variables — these map to {{variable}}
+    // placeholders inside your EmailJS template
+    // template_20azzqh.
+    // Make sure your template uses the same names.
+    // -----------------------------------------------
+    const sharedParams = {
+      membership_no:     membershipNo,
+      date:              dateStr,
+      plan_name:         memberData.plan.label,
+      plan_fee:          '₹' + memberData.plan.fee.toLocaleString('en-IN'),
+      member_name:       memberData.firstName + ' ' + memberData.lastName,
+      member_first_name: memberData.firstName,
+      member_email:      memberData.email,
+      member_phone:      memberData.phone,
+      member_address:    memberData.address,
+      member_pan:        memberData.pan        || 'Not provided',
+      member_dob:        memberData.dob        || 'Not provided',
+      member_gender:     memberData.gender     || 'Not specified',
+      member_occupation: memberData.occupation || 'Not provided',
+      member_why:        memberData.why        || '—',
+      org_name:          'Sanskar Vikas Foundation',
+      cin:               'U93030MH2012NPL237849',
+      foundation_email:  FOUNDATION_EMAIL,
+      foundation_phone:  '+91 89756 04678',
+    };
+
+    try {
+      // --- 1. Email to the MEMBER ---
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_MEMBER, {
+        ...sharedParams,
+        to_email: memberData.email,
+        to_name:  memberData.firstName,
+        email_type: 'member_confirmation',   // optional flag if your template branches
+      });
+
+      // --- 2. Email to the NGO / FOUNDATION ---
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_NGO_MEM, {
+        ...sharedParams,
+        to_email: FOUNDATION_EMAIL,
+        to_name:  'Sanskar Vikas Foundation Team',
+        email_type: 'ngo_notification',      // optional flag
+      });
+
+      // Show success modal
+      document.getElementById('mSuccessOverlay').classList.add('active');
+
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      showToast('⚠️ Email sending failed. Please contact ' + FOUNDATION_EMAIL, 'error');
+      // Still show success so the user is not blocked
+      setTimeout(() => document.getElementById('mSuccessOverlay').classList.add('active'), 3000);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = "✅ I've Completed the Payment";
+    }
+  });
+
+  // =============================================
+  // CLOSE SUCCESS & RESET FORM
+  // =============================================
+  function mCloseSuccess() {
+    document.getElementById('mSuccessOverlay').classList.remove('active');
+    mGoToStep(1);
+    ['mFirstName','mLastName','mEmail','mPhone','mAddress','mDob','mOccupation','mPan','mWhy']
+      .forEach(id => { document.getElementById(id).value = ''; });
+    document.getElementById('mGender').value = '';
+    document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+    selectedPlan = null;
+    document.getElementById('selectedPlanInfo').textContent = 'Select a plan above ↑';
+    document.getElementById('selectedPlanFee').textContent  = '—';
+  }
+
+  // =============================================
+  // TOAST UTILITY
+  // =============================================
+  function showToast(msg, type = '') {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+    const t = document.createElement('div');
+    t.className = 'toast' + (type === 'error' ? ' error' : '');
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 4000);
+  }
+
+  // =============================================
+  // SCROLL REVEAL
+  // =============================================
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('revealed'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+</script>
+
+<script src="components.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      document.querySelectorAll('#nav-placeholder .nav-links a, #nav-placeholder .mobile-nav a').forEach(a => {
+        const href = a.getAttribute('href');
+        if (href && href.startsWith('../')) a.setAttribute('href', href.replace('../', ''));
+      });
+    }, 0);
+  });
+</script>
+<script src="main.js"></script>
+
+</body>
+</html>

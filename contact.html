@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Sanskar Vikas Foundation</title>
+  <meta name="description" content="Get in touch with Sanskar Vikas Foundation — Nagpur's trusted NGO for healthcare, education, and community development.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    .page-hero .hero-dots-contact {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .page-hero .hero-dots-contact::after {
+      content: '';
+      position: absolute;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      border: 1px solid rgba(78,203,152,0.12);
+      top: -180px; right: -120px;
+    }
+    .page-hero .hero-dots-contact::before {
+      content: '';
+      position: absolute;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      border: 1px solid rgba(78,203,152,0.1);
+      bottom: -80px; left: -60px;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .contact-info-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contact-info-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0,0,0,0.055);
+      margin-bottom: 20px;
+    }
+    .contact-info-card:last-child { margin-bottom: 0; }
+
+    .contact-info-card h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--green-primary);
+      margin-bottom: 20px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--gray-light);
+    }
+    .contact-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .contact-item:first-of-type { padding-top: 0; }
+
+    .contact-item-icon {
+      width: 46px; height: 46px;
+      background: var(--green-pale);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+    .contact-item:hover .contact-item-icon {
+      background: var(--green-primary);
+    }
+
+    .contact-item-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-mid);
+      margin-bottom: 4px;
+    }
+    .contact-item-value {
+      font-size: 0.92rem;
+      color: var(--text-body);
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    .contact-item-value a {
+      color: var(--green-dark);
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .contact-item-value a:hover { color: var(--green-primary); }
+
+    .org-about-card {
+      background: linear-gradient(135deg, var(--navy) 0%, #1c3a5e 100%);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      color: var(--white);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .org-about-card::before {
+      content: '';
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(78,203,152,0.08);
+      bottom: -60px; right: -40px;
+    }
+    .org-about-card h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--green-light);
+      margin-bottom: 14px;
+    }
+    .org-about-card p {
+      color: rgba(255,255,255,0.78);
+      font-size: 0.9rem;
+      line-height: 1.75;
+    }
+    .org-cin {
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.65);
+      font-family: monospace;
+    }
+
+    .director-mini {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 12px;
+      margin-top: 8px;
+    }
+    .director-avatar {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--green-primary), var(--green-light));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .director-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.2;
+    }
+    .director-title {
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.55);
+      margin-top: 2px;
+    }
+
+    .contact-form-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(26,158,110,0.1);
+      position: sticky;
+      top: 96px;
+    }
+    .contact-form-card h3 {
+      color: var(--navy);
+      margin-bottom: 6px;
+      font-size: 1.6rem;
+    }
+    .contact-form-card > p {
+      color: var(--gray-mid);
+      font-size: 0.9rem;
+      margin-bottom: 32px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+      letter-spacing: 0.03em;
+    }
+    .form-group label span { color: var(--orange-accent); }
+
+    .form-input-contact {
+      width: 100%;
+      padding: 13px 18px;
+      border: 2px solid rgba(0,0,0,0.09);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.93rem;
+      outline: none;
+      transition: var(--transition);
+      color: var(--text-body);
+      background: var(--off-white);
+    }
+    .form-input-contact::placeholder { color: var(--gray-mid); }
+    .form-input-contact:focus {
+      border-color: var(--green-primary);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(26,158,110,0.09);
+    }
+    textarea.form-input-contact {
+      resize: vertical;
+      min-height: 130px;
+    }
+    select.form-input-contact { cursor: pointer; }
+
+    .form-submit-btn {
+      width: 100%;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, var(--green-primary), var(--green-dark));
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 20px rgba(26,158,110,0.35);
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .form-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(26,158,110,0.5);
+      background: linear-gradient(135deg, var(--green-light), var(--green-primary));
+    }
+    .form-submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .map-wrap {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0,0,0,0.07);
+      height: 400px;
+      position: relative;
+    }
+    .map-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    .map-overlay-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: var(--white);
+      border-radius: 12px;
+      padding: 12px 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .form-success.show { display: block; }
+    .form-success-icon {
+      width: 72px; height: 72px;
+      background: var(--green-pale);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      margin: 0 auto 20px;
+    }
+
+    .cta-contact {
+      background: linear-gradient(135deg, var(--orange-accent), #b84a15);
+      border-radius: var(--radius-lg);
+      padding: 56px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-contact::before {
+      content: '';
+      position: absolute;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+      top: -100px; right: -60px;
+    }
+    .cta-contact h3 {
+      color: var(--white);
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .cta-contact p {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.95rem;
+    }
+    .btn-white {
+      background: var(--white);
+      color: var(--orange-accent);
+      font-weight: 700;
+      padding: 15px 36px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      background: rgba(255,255,255,0.92);
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 18px; height: 18px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 1024px) {
+      .contact-layout { grid-template-columns: 1fr; }
+      .contact-form-card { position: static; }
+      .cta-contact { flex-direction: column; text-align: center; padding: 40px 32px; }
+    }
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form-card { padding: 28px 20px; }
+      .map-wrap { height: 280px; }
+    }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="hero-dots-contact"></div>
+  <div style="position:relative;z-index:1;">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Contact Us</span>
+    </div>
+    <h1>Get In Touch</h1>
+    <p>We're here to help, collaborate, and connect for a better tomorrow.</p>
+  </div>
+</section>
+
+<!-- MAIN CONTACT SECTION -->
+<section class="section-pad" style="background:var(--off-white);">
+  <div class="container">
+    <div class="contact-layout">
+
+      <!-- LEFT: Info Cards -->
+      <div class="contact-info-stack" data-reveal>
+
+        <div class="org-about-card">
+          <h4>About the Foundation</h4>
+          <p>Sanskar Vikas Foundation is a registered non-profit organisation working in healthcare, education, women empowerment, and livelihood development. We conduct health camps, awareness programs, and skill development initiatives to support underprivileged communities.</p>
+          <div class="org-cin">CIN: U93030MH2012NPL237849</div>
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
+            <div class="director-mini">
+              <div class="director-avatar">👩‍⚕️</div>
+              <div>
+                <div class="director-name">Dr. Deepali Prakash Thakur</div>
+                <div class="director-title">Director & Dermatologist</div>
+              </div>
+            </div>
+            <div class="director-mini">
+              <div class="director-avatar">👨‍💼</div>
+              <div>
+                <div class="director-name">Prithvi Prakash Thakur</div>
+                <div class="director-title">Co-Director</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-info-card">
+          <h4>Contact Details</h4>
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div>
+              <div class="contact-item-label">Registered Address</div>
+              <div class="contact-item-value">
+                Aspire Aesthetics Skin and Hair Laser Clinic,<br>
+                Plot No. 4, Ramkrishna Nagar,<br>
+                Near Ajni Metro Station, Opp. Tata Croma,<br>
+                Wardha Road, Narendra Nagar,<br>
+                Nagpur, Maharashtra – 440015
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            <div>
+              <div class="contact-item-label">Phone</div>
+              <div class="contact-item-value">
+                <a href="tel:+918975604678">+91 89756 04678</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📧</div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-value">
+                <a href="mailto:sanskarvikasfoundation@gmail.com">sanskarvikasfoundation@gmail.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📅</div>
+            <div>
+              <div class="contact-item-label">Incorporated On</div>
+              <div class="contact-item-value">12 November 2012</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-info-card">
+          <h4>Reach Us On</h4>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--green-pale);border-radius:50px;font-size:0.85rem;font-weight:600;color:var(--green-dark);transition:var(--transition);"
+              onmouseover="this.style.background='var(--green-primary)';this.style.color='white'"
+              onmouseout="this.style.background='var(--green-pale)';this.style.color='var(--green-dark)'">
+              Facebook
+            </a>
+            <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--green-pale);border-radius:50px;font-size:0.85rem;font-weight:600;color:var(--green-dark);transition:var(--transition);"
+              onmouseover="this.style.background='var(--green-primary)';this.style.color='white'"
+              onmouseout="this.style.background='var(--green-pale)';this.style.color='var(--green-dark)'">
+              Instagram
+            </a>
+            <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--green-pale);border-radius:50px;font-size:0.85rem;font-weight:600;color:var(--green-dark);transition:var(--transition);"
+              onmouseover="this.style.background='var(--green-primary)';this.style.color='white'"
+              onmouseout="this.style.background='var(--green-pale)';this.style.color='var(--green-dark)'">
+              WhatsApp
+            </a>
+            <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--green-pale);border-radius:50px;font-size:0.85rem;font-weight:600;color:var(--green-dark);transition:var(--transition);"
+              onmouseover="this.style.background='var(--green-primary)';this.style.color='white'"
+              onmouseout="this.style.background='var(--green-pale)';this.style.color='var(--green-dark)'">
+              LinkedIn
+            </a>
+          </div>
+          <div style="margin-top:24px;padding:16px;background:var(--off-white);border-radius:12px;display:flex;align-items:center;gap:14px;">
+            <span style="font-size:1.4rem;">🕐</span>
+            <div>
+              <div style="font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:2px;">Response Time</div>
+              <div style="font-size:0.88rem;color:var(--gray-mid);">We typically respond within 24 hours</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Contact Form -->
+      <div data-reveal data-delay="2">
+        <div class="contact-form-card">
+          <h3>Send Us a Message</h3>
+          <p>Whether you want to volunteer, partner, or just connect — we'd love to hear from you.</p>
+
+          <!-- ✅ FORMSPREE FORM — data goes to admin email only -->
+          <form
+            id="contactForm"
+            action="https://formspree.io/f/mpqgqlpv"
+            method="POST"
+          >
+            <!-- Hidden fields for Formspree config -->
+            <!-- This tells Formspree which email to send TO -->
+            <input type="hidden" name="_replyto" value="sanskarvikasfoundation@gmail.com">
+            <!-- Subject line in admin email -->
+            <input type="hidden" name="_subject" value="New Contact Form Submission - Sanskar Vikas Foundation Website">
+            <!-- Redirect after submit (we handle via JS instead) -->
+            <input type="hidden" name="_next" value="false">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full Name <span>*</span></label>
+                <input
+                  type="text"
+                  name="full_name"
+                  class="form-input-contact"
+                  placeholder="Your full name"
+                  required
+                >
+              </div>
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input
+                  type="tel"
+                  name="phone_number"
+                  class="form-input-contact"
+                  placeholder="+91 XXXXX XXXXX"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Email Address <span>*</span></label>
+              <input
+                type="email"
+                name="email"
+                class="form-input-contact"
+                placeholder="you@example.com"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label>How can we help?</label>
+              <select name="enquiry_type" class="form-input-contact">
+                <option value="" disabled selected>Select a topic</option>
+                <option>Volunteer with Us</option>
+                <option>Donate / Fundraise</option>
+                <option>Corporate Partnership / CSR</option>
+                <option>Healthcare Programs</option>
+                <option>Education Initiatives</option>
+                <option>Women Empowerment Programs</option>
+                <option>Media / Press Enquiry</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Your Message <span>*</span></label>
+              <textarea
+                name="message"
+                class="form-input-contact"
+                placeholder="Tell us about yourself and how you'd like to get involved..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="form-submit-btn" id="submitBtn">
+              <span id="btnText">Send Message</span>
+              <span id="btnArrow">→</span>
+            </button>
+
+            <p style="font-size:0.78rem;color:var(--gray-mid);margin-top:14px;text-align:center;">
+              We respect your privacy. Your information is never shared with third parties.
+            </p>
+          </form>
+
+          <!-- Success State -->
+          <div class="form-success" id="formSuccess">
+            <div class="form-success-icon">✅</div>
+            <h4 style="color:var(--navy);margin-bottom:8px;">Message Sent!</h4>
+            <p style="font-size:0.9rem;color:var(--gray-mid);line-height:1.7;">
+              Thank you for reaching out to Sanskar Vikas Foundation.<br>
+              Our team will get back to you within 24 hours.
+            </p>
+            <button
+              onclick="resetForm()"
+              style="margin-top:20px;padding:10px 28px;background:var(--green-pale);border-radius:50px;color:var(--green-dark);font-weight:600;font-size:0.88rem;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;"
+            >
+              Send Another Message
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MAP SECTION -->
+<section class="section-pad-sm" style="background:var(--white);">
+  <div class="container">
+    <div class="text-center" data-reveal style="margin-bottom:40px;">
+      <div class="section-tag">Find Us</div>
+      <h2>We're Based in <span style="color:var(--green-primary);">Nagpur</span></h2>
+      <p style="max-width:520px;margin:12px auto 0;">Near Ajni Metro Station on Wardha Road — easily accessible from across the city.</p>
+    </div>
+    <div class="map-wrap" data-reveal>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.8034965!2d79.0857!3d21.1101!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4c0a0a0a0a0a0%3A0x0!2sAjni%20Metro%20Station%2C%20Wardha%20Rd%2C%20Nagpur%2C%20Maharashtra%20440015!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Sanskar Vikas Foundation Location — Nagpur">
+      </iframe>
+      <div class="map-overlay-badge">
+        <span>📍</span>
+        <span>Ajni Metro Station, Wardha Road, Nagpur</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="section-pad" style="background:var(--off-white);">
+  <div class="container">
+    <div class="cta-contact" data-reveal>
+      <div style="position:relative;z-index:1;">
+        <h3>Want to Support Our Mission?</h3>
+        <p>Every contribution — big or small — helps us reach more lives across Maharashtra.</p>
+      </div>
+      <div style="position:relative;z-index:1;display:flex;gap:16px;flex-wrap:wrap;">
+        <a href="donate.html" class="btn-white">Donate Now</a>
+        <a href="programmes.html"
+          style="display:inline-flex;align-items:center;gap:8px;padding:15px 32px;border-radius:50px;border:2px solid rgba(255,255,255,0.55);color:white;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;transition:var(--transition);white-space:nowrap;"
+          onmouseover="this.style.background='rgba(255,255,255,0.12)'"
+          onmouseout="this.style.background='transparent'">
+          Our Programmes →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+
+<script src="components.js"></script>
+<script src="main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    const form     = document.getElementById('contactForm');
+    const success  = document.getElementById('formSuccess');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText  = document.getElementById('btnText');
+    const btnArrow = document.getElementById('btnArrow');
+
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Show loading state
+        submitBtn.disabled = true;
+        btnText.textContent = 'Sending...';
+        btnArrow.innerHTML = '<span class="spinner"></span>';
+
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch('https://formspree.io/f/mpqgqlpv', {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+
+          if (response.ok) {
+            // Hide form, show success
+            form.style.display = 'none';
+            success.classList.add('show');
+            document.querySelector('.contact-form-card').scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          } else {
+            const data = await response.json();
+            const errorMsg = data.errors
+              ? data.errors.map(e => e.message).join(', ')
+              : 'Something went wrong. Please try again.';
+            alert('Error: ' + errorMsg);
+          }
+        } catch (err) {
+          alert('Network error. Please check your connection and try again.');
+        } finally {
+          // Reset button
+          submitBtn.disabled = false;
+          btnText.textContent = 'Send Message';
+          btnArrow.innerHTML = '→';
+        }
+      });
+    }
+
+    // Fix nav active link
+    setTimeout(() => {
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        if (a.getAttribute('href') === 'contact.html') {
+          a.classList.add('active');
+        }
+      });
+    }, 50);
+  });
+
+  function resetForm() {
+    const form    = document.getElementById('contactForm');
+    const success = document.getElementById('formSuccess');
+    form.reset();
+    form.style.display = 'block';
+    success.classList.remove('show');
+  }
+</script>
+</body>
+</html>

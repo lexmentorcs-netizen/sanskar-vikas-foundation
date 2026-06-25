@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events & Gallery | Sanskar Vikas Foundation</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .gallery-filter-btn {
+      padding: 10px 24px;
+      border-radius: 50px;
+      border: 2px solid rgba(26,158,110,0.25);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--white);
+    }
+    .gallery-filter-btn:hover, .gallery-filter-btn.active {
+      background: var(--green-primary);
+      border-color: var(--green-primary);
+      color: var(--white);
+    }
+    .gallery-masonry {
+      columns: 3;
+      column-gap: 20px;
+    }
+    .gallery-masonry-item {
+      break-inside: avoid;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .gallery-masonry-card {
+      background: linear-gradient(135deg, var(--green-primary), var(--green-dark));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    .gallery-masonry-item:hover .gallery-masonry-card { transform: scale(1.02); }
+    .gallery-masonry-card .overlay {
+      position: absolute; inset: 0;
+      background: rgba(13,107,73,0.75);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      opacity: 0; transition: 0.3s;
+      padding: 20px; text-align: center;
+    }
+    .gallery-masonry-item:hover .overlay { opacity: 1; }
+    .overlay h5 { color: white; font-size: 1rem; margin-bottom: 6px; }
+    .overlay p { color: rgba(255,255,255,0.8); font-size: 0.8rem; }
+    .event-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      border: 1px solid rgba(0,0,0,0.06);
+      transition: all 0.3s ease;
+    }
+    .event-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+    .event-card-header {
+      padding: 28px;
+      color: white;
+      position: relative;
+    }
+    .event-date-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .event-card-body { padding: 24px 28px; }
+    @media (max-width: 768px) { .gallery-masonry { columns: 1; } }
+    @media (max-width: 1024px) { .gallery-masonry { columns: 2; } }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <div style="position:relative;z-index:1;">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a><span class="breadcrumb-sep">›</span><span>Events & Gallery</span>
+    </div>
+    <h1>Events & Gallery</h1>
+    <p>Capturing moments of impact — a visual journey through our programs and community activities.</p>
+  </div>
+</section>
+
+<!-- UPCOMING EVENTS -->
+<section class="section-pad" style="background:var(--off-white);">
+  <div class="container">
+    <div class="text-center" data-reveal style="margin-bottom:48px;">
+      <div class="section-tag">Events</div>
+      <h2>Recent & Upcoming <span style="color:var(--green-primary);">Events</span></h2>
+    </div>
+    <div class="grid-3">
+      <div class="event-card" data-reveal data-delay="1">
+        <div class="event-card-header" style="background:linear-gradient(135deg,#1a9e6e,#0d3d28);">
+          <div class="event-date-badge">April 02, 2025</div>
+          <h4 style="font-family:'Playfair Display',serif;font-size:1.2rem;">Annual General Meeting 2025</h4>
+        </div>
+        <div class="event-card-body">
+          <p style="font-size:0.9rem;">The AGM was convened with all members, distinguished guests, and staff. The Owner presented the fiscal year's performance and audited financial statements were distributed.</p>
+          <div style="margin-top:16px;display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--gray-mid);">
+            <span>📍</span><span>Nagpur, Maharashtra</span>
+          </div>
+        </div>
+      </div>
+      <div class="event-card" data-reveal data-delay="2">
+        <div class="event-card-header" style="background:linear-gradient(135deg,#8B0000,#c94f1e);">
+          <div class="event-date-badge">2024–25</div>
+          <h4 style="font-family:'Playfair Display',serif;font-size:1.2rem;">Women's Health Camp</h4>
+        </div>
+        <div class="event-card-body">
+          <p style="font-size:0.9rem;">A comprehensive health camp exclusively for women providing free check-ups, gynecological consultations, anemia screenings, and hygiene awareness sessions.</p>
+          <div style="margin-top:16px;display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--gray-mid);">
+            <span>👥</span><span>150+ Women Benefited</span>
+          </div>
+        </div>
+      </div>
+      <div class="event-card" data-reveal data-delay="3">
+        <div class="event-card-header" style="background:linear-gradient(135deg,#0f2044,#1a9e6e);">
+          <div class="event-date-badge">January 26, 2025</div>
+          <h4 style="font-family:'Playfair Display',serif;font-size:1.2rem;">Republic Day Health Program</h4>
+        </div>
+        <div class="event-card-body">
+          <p style="font-size:0.9rem;">Health program organized in celebration of Republic Day, including free check-ups, medicine distribution, and awareness sessions on hygiene and disease prevention.</p>
+          <div style="margin-top:16px;display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--gray-mid);">
+            <span>📍</span><span>Nagpur, Maharashtra</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming -->
+    <div style="margin-top:48px;">
+      <h3 style="color:var(--navy);margin-bottom:28px;text-align:center;">Upcoming Events 2026</h3>
+      <div class="grid-3">
+        <div class="upcoming-card" data-reveal data-delay="1">
+          <span class="upcoming-badge">June 2026</span>
+          <div class="upcoming-date">📅 Coming Soon</div>
+          <h4>Mobile Health Van Launch</h4>
+          <p>Free healthcare services reaching remote villages across Maharashtra.</p>
+        </div>
+        <div class="upcoming-card" data-reveal data-delay="2">
+          <span class="upcoming-badge">August 2026</span>
+          <div class="upcoming-date">📅 Coming Soon</div>
+          <h4>Girls Scholarship Ceremony</h4>
+          <p>Awarding scholarships to meritorious girls from underprivileged backgrounds.</p>
+        </div>
+        <div class="upcoming-card" data-reveal data-delay="3">
+          <span class="upcoming-badge">October 2026</span>
+          <div class="upcoming-date">📅 Coming Soon</div>
+          <h4>Skill Development Camp</h4>
+          <p>Vocational training for rural youth in tailoring, computing, and agriculture.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO GALLERY -->
+<section class="section-pad" style="background:var(--white);">
+  <div class="container">
+    <div class="text-center" data-reveal style="margin-bottom:40px;">
+      <div class="section-tag">Photo Gallery</div>
+      <h2>Our <span style="color:var(--green-primary);">Moments</span></h2>
+      <p style="max-width:500px;margin:12px auto 24px;">A visual record of our work, events, and the communities we serve.</p>
+
+      <!-- Filter Buttons -->
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px;">
+        <button class="gallery-filter-btn active" data-filter="all">All</button>
+        <button class="gallery-filter-btn" data-filter="healthcare">Healthcare</button>
+        <button class="gallery-filter-btn" data-filter="women">Women's Programs</button>
+        <button class="gallery-filter-btn" data-filter="community">Community</button>
+        <button class="gallery-filter-btn" data-filter="events">Events</button>
+      </div>
+    </div>
+
+    <div class="gallery-masonry" data-reveal>
+      <div class="gallery-masonry-item" data-category="healthcare">
+        <div class="gallery-masonry-card" style="height:280px;background:linear-gradient(135deg,#1a9e6e,#0d3d28);">
+          🏥
+          <div class="overlay"><h5>Women's Health Camp</h5><p>Free check-ups & consultations for 150+ women</p></div>
+        </div>
+      </div>
+      <div class="gallery-masonry-item" data-category="community">
+        <div class="gallery-masonry-card" style="height:200px;background:linear-gradient(135deg,#8B0000,#c94f1e);">
+          🩸
+          <div class="overlay"><h5>Blood Donation Drive</h5><p>Life-saving initiative with certified blood bank</p></div>
+        </div>
+      </div>
+      <div class="gallery-masonry-item" data-category="healthcare">
+        <div class="gallery-masonry-card" style="height:240px;background:linear-gradient(135deg,#0f2044,#1a9e6e);">
+          👁️
+          <div class="overlay"><h5>Free Eye Camp</h5><p>Eye check-ups & free spectacles distributed</p></div>
+        </div>
+      </div>
+      <div class="gallery-masonry-item" data-category="women">
+        <div class="gallery-masonry-card" style="height:260px;background:linear-gradient(135deg,#4ecb98,#1a9e6e);">
+          🌸
+          <div class="overlay"><h5>Pad Distribution Program</h5><p>Menstrual hygiene awareness & free pads</p></div>
+        </div>
+      </div>
+      <div class="gallery-masonry-item" data-category="events">
+        <div class="gallery-masonry-card" style="height:220px;background:linear-gradient(135deg,#0d3d28,#0f2044);">
+          🎗️
+          <div class="overlay"><h5>Republic Day Program</h5><p>Health initiative on India's Republic Day</p></div>
+        </div>
+      </div>
+      <div class="gallery-masonry-item" data-category="events">
+        <div class="gallery-masonry-card" style="height:280px;background:linear-gradient(135deg,var(--navy),#2a5080);">
+          🤝
+          <div class="overlay"><h5>Annual General Meeting</h5><p>AGM 2025 — Board and stakeholders convened</p></div>
+        </div>
+      </div>
+      <div class="gallery-masonry-item" data-category="women">
+        <div class="gallery-masonry-card" style="height:200px;background:linear-gradient(135deg,#c94f1e,var(--navy));">
+          👩‍🎓
+          <div class="overlay"><h5>Women Empowerment Workshop</h5><p>Skill and leadership training for women</p></div>
+        </div>
+      </div>
+      <div class="gallery-masonry-item" data-category="community">
+        <div class="gallery-masonry-card" style="height:240px;background:linear-gradient(135deg,#1a9e6e,#0f2044);">
+          🌿
+          <div class="overlay"><h5>Environmental Drive</h5><p>Tree plantation and conservation awareness</p></div>
+        </div>
+      </div>
+      <div class="gallery-masonry-item" data-category="healthcare">
+        <div class="gallery-masonry-card" style="height:220px;background:linear-gradient(135deg,#0d6b49,#1a9e6e);">
+          💊
+          <div class="overlay"><h5>Medicine Distribution</h5><p>Free medicines distributed to the needy</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
