@@ -46,6 +46,7 @@ function injectComponents() {
     <a href="team.html">Our Team</a>
     <a href="gallery.html">Events & Gallery</a>
     <a href="contact.html">Contact</a>
+        <a href="membership.html">Membership</a>
     <a href="donate.html" style="color:var(--orange-accent);">❤️ Donate</a>
 
   </div>
